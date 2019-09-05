@@ -1,0 +1,5 @@
+credentials.json
+.idea/
+.python-version
+venv/
+extracted_texts.json
