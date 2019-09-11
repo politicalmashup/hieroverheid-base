@@ -1,0 +1,46 @@
+{
+	"query": {
+		"bool": {
+			"must": [{
+				"bool": {
+					"must": [
+						[{
+							"bool": {
+								"must": [{
+									"multi_match": {
+										"fields": ["text", "title", "description", "name"],
+										"query": "begrippenlijst",
+										"fuzziness": 1
+									}
+								}]
+							}
+						}]
+					]
+				}
+			}]
+		}
+	},
+	"highlight": {
+		"pre_tags": ["<mark>"],
+		"post_tags": ["</mark>"],
+		"fields": {
+			"text": {},
+			"title": {},
+			"name": {},
+			"description": {}
+		},
+		"fragment_size": 100,
+		"number_of_fragments": 3
+	},
+	"size": 20,
+	"_source": {
+		"includes": ["*"],
+		"excludes": []
+	},
+	"from": 0,
+	"sort": [{
+		"_score": {
+			"order": "desc"
+		}
+	}]
+}

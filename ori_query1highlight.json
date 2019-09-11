@@ -1,0 +1,36 @@
+{
+  "query": {
+    "simple_query_string": {
+      "fields": ["text", "title", "description", "name"],
+      "default_operator": "or",
+      "query": "begrippenlijst"
+    }
+  },
+  "highlight": {
+    "pre_tags": ["<mark>"],
+    "post_tags": ["</mark>"],
+    "fields": {
+      "text": {},
+      "title": {},
+      "name": {},
+      "description": {}
+    },
+    "fragment_size": 100,
+    "number_of_fragments": 3
+  },
+  "size": 5000,
+  "_source": {
+    "includes": [
+      "*"
+    ],
+    "excludes": []
+  },
+  "from": 0,
+  "sort": [
+    {
+      "_score": {
+        "order": "desc"
+      }
+    }
+  ]
+}

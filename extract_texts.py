@@ -14,12 +14,21 @@ response = requests.post(
 )
 
 response_dict = json.loads(response.content)
+with open('ori_response.json','w') as f:
+    json.dump(response_dict, f, indent=2)
 
 number_of_hits = response_dict["hits"]["total"]["value"]
 all_hits = response_dict["hits"]["hits"]
 
 print(f"Found {number_of_hits} documents.")
 cont = input('Do you want to download these documents and extract the text using TAPI? (y/n) ')
+
+
+
+
+
+
+
 
 if (cont != 'y'):
     exit(0)
