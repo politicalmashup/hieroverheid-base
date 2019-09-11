@@ -3,3 +3,6 @@ credentials.json
 .python-version
 venv/
 extracted_texts.json
+glossarys.json
+ori_response.json
+ori_query2.json
