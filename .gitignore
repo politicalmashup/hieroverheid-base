@@ -1,8 +1,8 @@
-credentials.json
 .idea/
 .python-version
 venv/
+__pycache__/
+
+credentials.json
 extracted_texts.json
-glossarys.json
 ori_response.json
-ori_query2.json
