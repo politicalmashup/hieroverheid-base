@@ -26,13 +26,34 @@ def find_key_in_line(line):
         value = splitted[-1]
     else:
         cur_key = line
-        value = None
+        value = ''
     value += " "
     return (cur_key, value)
 
+def find_value_in_line(line, custom_key):
+    ind = line.find(custom_key)
+    if ind == -1:
+        return ' '
+    else:
+        return line[ind + len(custom_key):]
 
 def clear_terminal():
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
+
+
+def guess_begrippenlijst_page_number(text):
+    pagenumber_search = re.search('\s+\d+\s+', text)
+    if pagenumber_search is None:
+        return None
+    pn_text = text[pagenumber_search.start():]
+    pn_search = re.search('\d+', pn_text)
+    # print(pn_text[pn_search.start(): pn_search.start() + 20])
+    pn_search_end = pn_text[pn_search.start():].find("\n")
+    pn_search_end = re.search('\s', pn_text[pn_search.start():])
+    # print(pn_search.start(), " - ", pn_search_end)
+    pagenumber  = pn_text[pn_search.start() : pn_search.start() + pn_search_end.start()]
+    pagenumber = int(pagenumber.strip())
+    return pagenumber
