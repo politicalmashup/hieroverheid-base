@@ -43,6 +43,9 @@ def clear_terminal():
     else:
         os.system('clear')
 
+def remove_linebreaks(text):
+    return text.replace("\n", "")
+
 
 def guess_begrippenlijst_page_number(text):
     pagenumber_search = re.search('\s+\d+\s+', text)

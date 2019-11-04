@@ -5,4 +5,5 @@ __pycache__/
 
 credentials.json
 extracted_texts.json
+oauth_credentials.json
 ori_response.json

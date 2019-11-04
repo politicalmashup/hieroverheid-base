@@ -3,7 +3,7 @@ import re
 import os
 import subprocess
 
-from util import find_key_in_line, find_value_in_line, clean_key, clear_terminal, guess_begrippenlijst_page_number
+from util import find_key_in_line, find_value_in_line, clean_key, clear_terminal, guess_begrippenlijst_page_number, remove_linebreaks
 
 # TODO:
 # - Create continuous text detection to get description in one go and not per line
@@ -32,11 +32,12 @@ def print_command_instructions():
         h - print these commands.
         x - exit the program.
     
-     Text evaluation commands:
+     Text evaluation commands (">>>"):
         q - identify end of glossary.
         d - add current line to current glossary item.
         c - print text surrounding the current line when in doubt.
         h - print these commands.
+        s - skip this line.
         
         n (or any other) - reject current text as a new glossary item. Will lead to retry.
         y (or no input) - accept current text as a new glossary item.
@@ -199,9 +200,9 @@ while i < len(texts_to_evaluate):
         if cur_key is not None:
             cleaned_key = clean_key(cur_key)
             if glossary.get(cleaned_key) is None:
-                glossary[cleaned_key] = r_this_line
+                glossary[cleaned_key] = remove_linebreaks(r_this_line)
             else:
-                glossary[cleaned_key] += r_this_line
+                glossary[cleaned_key] += remove_linebreaks(r_this_line)
             if this_line == next_line:
                 match_found = True
 
@@ -235,13 +236,16 @@ while i < len(texts_to_evaluate):
 
 
                 # choice = input("Is this a new key? (Press Enter to say accept, if its part of the description enter \"d\", if you think this is the end of the begrippenlijst enter \"q\", otherwhise anything else): ")
-                if choice == "":
+                if choice == "" or choice == "y":
                     new_begrip_upcoming = True
                     cur_key = None
                 elif choice == "d":
                     pass
                 elif choice == "q":
                     text_available = False
+                elif choice == "s":
+                    match_found = True
+                    pass
                 else:
                     print("Enter your own key for this item (or 'c' to print context)")
                     custom_key = None
@@ -252,7 +256,6 @@ while i < len(texts_to_evaluate):
                         custom_key = input(">>> ")
                     cur_key = None
                     new_begrip_upcoming = True
-                    pass
             else:
                 # End of text
                 text_available = False
@@ -268,12 +271,14 @@ while i < len(texts_to_evaluate):
                     cur_key, value = find_key_in_line(this_line)
                 if value:
                     cleaned_key = clean_key(cur_key)
-                    glossary[cleaned_key] = value
+                    glossary[cleaned_key] = remove_linebreaks(value)
                 # remaining_text = remaining_text[len(this_line):]
                 new_begrip_upcoming = False
                 match_found = True
+
         cur_text_pos += len(this_line)
         line += 1
+
 
     print("Begrippenlijst extracted looks like: ")
     for begrip in glossary.keys():
