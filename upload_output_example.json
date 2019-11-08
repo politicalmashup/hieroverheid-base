@@ -1,0 +1,17 @@
+{
+  "uploaded": [
+    {
+      "doc_id": "1234",
+      "json_source_file_local": "blabla.json",
+      "newly_created_topics": {
+        "myuuid": "my_canonical_name"
+      },
+      "topics_already_found_in_wordhoard": {
+        "myuuid": "my_canonical_name"
+      },
+      "created_wordhoards": {
+        "myuuid": "1234_definitions"
+      }
+    }
+  ]
+}
