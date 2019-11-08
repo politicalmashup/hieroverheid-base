@@ -32,7 +32,7 @@ def upload_doc(doc_id):
     tapi_url = f'https://topics-dev.platform.co.nl/dev/document/orid:{doc_id}/'
     resp = oauth_client.put(tapi_url, json=tapi_data)
     if resp.ok:
-        print(resp.json())
+        print(resp.text)
     else:
         print(resp.status_code, resp.text)
 
