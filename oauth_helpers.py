@@ -3,6 +3,7 @@ from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
 from constants import TAPI_ROOT_URL
+from oauth_credentials import client_id, client_secret
 
 
 def get_client(client_id, scope=None):
@@ -25,14 +26,20 @@ def get_client_with_token(client_id, client_secret, scope=None):
     return client
 
 
-def post_with_client(client, url, data):
-    return client.post(url, json=data)
+oauth_client = get_client_with_token(
+    client_id=client_id,
+    client_secret=client_secret
+)
 
 
-def get_with_client(client, url):
-    return client.get(url)
+def post_with_client(url, data):
+    return oauth_client.post(url, json=data)
 
 
-def delete_with_client(client, url, id):
+def get_with_client(url):
+    return oauth_client.get(url)
+
+
+def delete_with_client(url, id):
     id_url = url + id
-    return client.delete(id_url)
+    return oauth_client.delete(id_url)

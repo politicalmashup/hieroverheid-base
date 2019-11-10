@@ -1,25 +1,42 @@
-# PDF Extraction for WaarOverheid
+# Topic Mining for HierOverheid
 
-## How to use
-Create a `credentials.json` file in the project root with the following structure:
+## Initial Setup
+Create an `oauth_credentials.py` file in the project root with the following structure:
 
+```python
+client_id       = "my_TAPI_client_id"
+client_secret   = "my_TAPI_client_secret"
 ```
-{
-    "username": "my_tapi_username",
-    "password": "my_tapi_password"
-}
+
+## Abbreviation Mining
+
+```shell script
+$ python make_abbreviation_hoards.py -h
+usage: make_abbreviation_hoards.py [-h] [--all] [doc_id [doc_id ...]]
+
+Update word hoards with abbreviation topics.
+
+positional arguments:
+  doc_id      Any number of orid:<doc_id>s
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --all       update the hoards for all existing documents 
+              (instead of for <doc_id>s)
 ```
+
+## Definition Mining
 
 Run `python extract_texts.py` to extract texts first.
 
-### Extracting the glossarys
+### Extracting the glossaries
 
 - Install `evince` pdf viewer using `sudo snap install evince`
 
-- Then use `find_glossary_in_texts.py` to find the glossarys
+- Then use `find_glossary_in_texts.py` to find the glossaries
 
 
-## Commands in app
+### Commands in app
 
 ```
 Menu commands:

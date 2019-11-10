@@ -3,19 +3,11 @@ import json
 
 from constants import (
     custom_topics_url,
-    custom_wordhoards_url
+    wordhoard_list_url
 )
-from oauth_helpers import get_with_client, get_client_with_token, post_with_client
-from wordhoard_helpers import find_AgendaPunt_Agenda_and_Committee, post_wordhoard_payload
+from oauth_helpers import get_with_client, post_with_client
+from wordhoard_helpers import find_super_items, post_wordhoard_payload
 
-
-with open('oauth_credentials.json', 'r') as f:
-    oauth_credentials = json.load(f)
-
-oauth_client = get_client_with_token(
-    client_id=oauth_credentials['client_id'],
-    client_secret=oauth_credentials['client_secret']
-)
 
 def main():
     collected_glossarys = sorted(os.listdir('glossarys'))[1:] # exclude the .gitignore file
@@ -32,7 +24,7 @@ def main():
 
         # If the wordhoard accompanying this document already exist, we can skip this file.
         # Check this by querying /custom/wordhoard/
-        res = get_with_client(client=oauth_client, url=custom_wordhoards_url)
+        res = get_with_client(url=wordhoard_list_url)
         res_dict = json.loads(res.content.decode('utf-8'))
         custom_wordhoard_list = res_dict["items"]
         custom_wordhoard_names = [item['name'] for item in custom_wordhoard_list]
@@ -60,7 +52,7 @@ def main():
             })
 
         data = { "topics": topics }
-        response = post_with_client(oauth_client, custom_topics_url, data=data)
+        response = post_with_client(custom_topics_url, data=data)
         if response.ok:
             custom_topic_response_dictionary = json.loads(response.content.decode('utf-8'))
         else:
@@ -73,7 +65,7 @@ def main():
         # First check if we can find our expected linked data structure
         # document <-- agendaItem <-- agenda <-- committee
         try:
-            orid_agenda, orid_agendaItem, orid_committee = find_AgendaPunt_Agenda_and_Committee(doc_id)
+            orid_agenda, orid_agendaItem, orid_committee = find_super_items(doc_id)
         except Exception as e:
             input("Problem getting the expected linked data structure - ", e)
             errors.append(e)
