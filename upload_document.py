@@ -1,4 +1,4 @@
-import json
+import argparse
 import sys
 
 import requests
@@ -14,9 +14,12 @@ oauth_client = get_client_with_token(
 
 def download_doc(doc_id):
     ori_search_url = 'https://ori.argu.co/api/*/_search'
-    resp = requests.get(ori_search_url, params={'pretty': 'true', 'q': f'_id:{doc_id}'})
+    resp = requests.get(ori_search_url, params={'q': f'_id:{doc_id}'})
     data = resp.json()
-    return data['hits']['hits'][0]['_source']
+    try:
+        return data['hits']['hits'][0]['_source']
+    except (IndexError, KeyError):
+        raise IndexError(f'Document {doc_id} was not found.')
 
 
 def upload_doc(doc_id):
@@ -25,7 +28,7 @@ def upload_doc(doc_id):
         'document_id': f'orid:{doc_id}',
         'title': doc_source['name'],
         'sections': [
-            {'heading': f'page {i}', 'body': body}
+            {'heading': f'page {i}', 'body': body or '---'}
             for i, body in enumerate(doc_source['text'])
         ]
     }
@@ -34,9 +37,14 @@ def upload_doc(doc_id):
     if resp.ok:
         print(resp.text)
     else:
-        print(resp.status_code, resp.text)
+        print(resp.status_code, resp.text, file=sys.stderr)
 
 
 if __name__ == '__main__':
-    doc_id = sys.argv[1]
-    upload_doc(doc_id)
+    parser = argparse.ArgumentParser(description='Upload ORI documents to the TAPI.')
+    parser.add_argument(
+        'doc_ids', metavar='doc_id', type=int, nargs='+', help="One or more orid:<doc_id>s"
+    )
+    args = parser.parse_args()
+    for doc_id in args.doc_ids:
+        upload_doc(doc_id)
