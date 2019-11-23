@@ -53,9 +53,15 @@ def empty_wordhoard_payload(orid, rdf_type, wh_type):
         'description': f"Mined {wh_type} for {orid} of type {rdf_type}",
         'name': f"{orid}_{wh_type}",
         'detection_settings': {
+            'abbreviation': {
+                'boundary_check': r'\b{}\b'
+            },
+            'canonical_name': {
+                'ignore_case': True
+            },
             'names': {
                 'ignore_case': True
-            }
+            },
         }
     }
 
