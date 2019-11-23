@@ -28,7 +28,7 @@ def upload_doc(doc_id):
         'document_id': f'orid:{doc_id}',
         'title': doc_source['name'],
         'sections': [
-            {'heading': f'page {i}', 'body': body or '---'}
+            {'heading': f'page {1 + i}', 'body': body or '---'}
             for i, body in enumerate(doc_source['text'])
         ]
     }
