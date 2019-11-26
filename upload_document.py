@@ -5,13 +5,8 @@ import sys
 from elasticsearch import Elasticsearch
 
 from constants import document_list_url, ES_ORI_URL
-from oauth_credentials import client_id, client_secret
-from oauth_helpers import get_client_with_token
+from oauth_helpers import oauth_client
 
-oauth_client = get_client_with_token(
-    client_id=client_id,
-    client_secret=client_secret
-)
 es_client = Elasticsearch(ES_ORI_URL)
 
 
