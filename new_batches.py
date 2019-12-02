@@ -5,7 +5,8 @@ from pathlib import Path
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
 
-from constants import ES_ORI_URL, ORSI_FILTER
+from constants import ES_ORI_URL, ORSI_FILTER, document_list_url
+from oauth_helpers import oauth_client
 
 es_client = Elasticsearch(ES_ORI_URL)
 here = Path(__file__).parent
@@ -58,12 +59,24 @@ def update_index_state(index_filter=ORSI_FILTER):
         index_ids = get_doc_ids(f'{name}_*')
         assert len(index_ids) == int(doc_count), \
             f'ES count is {doc_count} but I got {len(index_ids)} IDs'
+
         existing_state_files = state_dir.glob(f'{name}.*.ids')
+        old_lines = []
         for old_state in existing_state_files:
+            with old_state.open() as f:
+                old_lines = list(filter(None, f))
             old_state.unlink()
+
+        if old_lines:
+            doc_ids = old_lines[-1].split()
+            last_doc_id = doc_ids[-1]
+            index_ids = index_ids[1 + index_ids.index(last_doc_id):]
 
         state_file = state_dir / f'{name}.{doc_count}.ids'
         with state_file.open('w') as f:
+            for line in old_lines:
+                f.write(line)
+
             chunks = [
                 filter(None, chunk)
                 for chunk in zip_longest(*[iter(index_ids)] * 500)
@@ -72,18 +85,39 @@ def update_index_state(index_filter=ORSI_FILTER):
                 print(' '.join(chunk), file=f)
 
 
+def tapi_doc_exists(doc_id):
+    tapi_url = f'{document_list_url}orid:{doc_id}/'
+    resp = oauth_client.head(tapi_url)
+    return resp.ok
+
+
+def get_new_batches():
+    index_files = state_dir.glob('*.ids')
+    for f_path in index_files:
+        new_batches = []
+        with f_path.open() as f:
+            lines = list(filter(None, f))
+
+        for line in reversed(lines):
+            doc_ids = line.split()
+            if tapi_doc_exists(doc_ids[-1]):
+                # this line should be fully loaded
+                break
+            elif tapi_doc_exists(doc_ids[0]):
+                # todo: search this line
+                raise NotImplementedError('need to search this line for the highest loaded ID')
+            else:
+                new_batches.append(line)
+
+        for line in reversed(new_batches):
+            print(line.rstrip())
 
 
 """
-def get_new_batches()
-- read reverse lines from *.ids
-- HEAD last ID
-- ok? next file : HEAD first
-- if not first.ok: print(line)
-
 new_batches.py | parallel 'tee >(upload_document.py ...) | make_abbr_hoards'
 """
 
 
 if __name__ == '__main__':
     update_index_state('osi_*')
+    get_new_batches()

@@ -18,8 +18,8 @@ def download_docs(doc_ids):
         yield hit['_source']
 
 
-def upload_docs(args):
-    for doc_source in download_docs(args.doc_ids):
+def upload_docs(cli_args):
+    for doc_source in download_docs(cli_args.doc_ids):
         doc_id = doc_source['@id']
         try:
             tapi_data = {
@@ -37,7 +37,7 @@ def upload_docs(args):
         tapi_url = f'{document_list_url}orid:{doc_id}/'
         resp = oauth_client.put(tapi_url, json=tapi_data)
         if resp.ok:
-            if not args.quiet:
+            if not cli_args.quiet:
                 print(resp.text)
         else:
             print(resp.status_code, resp.text, file=sys.stderr)
