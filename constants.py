@@ -8,3 +8,5 @@ wordhoard_list_url = f"{TAPI_ROOT_URL}dev/custom/wordhoard/"
 wordhoard_topics_url = f"{TAPI_ROOT_URL}dev/custom/wordhoard/%s/topics/"
 ID_ORI_URL = "https://id.openraadsinformatie.nl/"
 ES_ORI_URL = "https://api.openraadsinformatie.nl/v1/elastic/"
+
+ORSI_FILTER = 'o*'
