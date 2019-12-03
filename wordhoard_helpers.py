@@ -88,7 +88,7 @@ def post_wordhoard_payload(item_id, rdf_type, topics, wordhoard_id=None, wh_type
         print(response.status_code, response.text, file=sys.stderr)
         if wordhoard_id:
             print(wordhoard_payload, file=sys.stderr)
-            input("Wordhoard update POST error...")
+            print("Wordhoard update POST error...", file=sys.stderr)
         else:
-            input("Wordhoard create POST error...")
+            print("Wordhoard create POST error...", file=sys.stderr)
         return response.status_code, response.text
