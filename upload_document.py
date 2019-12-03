@@ -3,6 +3,7 @@ import argparse
 import sys
 
 from elasticsearch import Elasticsearch
+from elasticsearch.helpers import scan
 
 from constants import document_list_url, ES_ORI_URL
 from oauth_helpers import oauth_client
@@ -11,10 +12,16 @@ es_client = Elasticsearch(ES_ORI_URL)
 
 
 def download_docs(doc_ids):
-    result = es_client.search('o*', body={'query': {
-        'ids': {'values': doc_ids}
-    }})
-    for hit in result['hits']['hits']:
+    result = scan(
+        es_client,
+        index='o*',
+        query={
+            'query': {
+                'ids': {'values': doc_ids}
+            }
+        },
+    )
+    for hit in result:
         yield hit['_source']
 
 

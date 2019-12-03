@@ -22,8 +22,22 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
   --all       update the hoards for all existing documents 
-              (instead of for <doc_id>s)
+      |       (instead of for <doc_id>s)
 ```
+
+A prerequisite for abbreviation mining is that documents have been uploaded to the TAPI.
+The `new_batches.py` script can be used to identify batches of documents that have not yet been loaded.
+This can be used as the basis of a loading and mining pipeline.
+
+The following shell command uses GNU Parallel. 
+On Ubuntu, it can be installed with `sudo apt install parallel`.
+This has only been tested on Ubuntu 18.04.
+```shell script
+./new_batches.py | parallel --jobs=2 --colsep=' ' --lb './upload_document.py --quiet {} && ./make_abbreviation_hoards.py {}' > osi-hoards.log
+```
+
+> O. Tange (2011): GNU Parallel - The Command-Line Power Tool, 
+> ;login: The USENIX Magazine, February 2011:42-47.
 
 ## Definition Mining
 

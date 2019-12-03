@@ -20,6 +20,9 @@ def update_hoards_for_docs(doc_ids):
     """
     for doc_id in doc_ids:
         abbr_data = get_abbreviations(doc_id)
+        if abbr_data is None:
+            continue
+
         abbr_topics = {
             topic_data['abbreviation']: topic_data
             for topic_data in abbr_data['topics']
@@ -139,6 +142,10 @@ def get_abbreviations(doc_id):
     """
     doc_abbreviations_url = f'{document_list_url}orid:{doc_id}/abbreviations/'
     resp = oauth_client.get(doc_abbreviations_url)
+    if not resp.ok:
+        print(resp.status_code, resp.text, doc_id, file=sys.stderr)
+        return None
+
     return resp.json()
 
 
@@ -171,4 +178,5 @@ if __name__ == '__main__':
         help='update the hoards for all existing documents (instead of for <doc_id>s)'
     )
     args = parser.parse_args()
+    # TODO: stop creating empty hoards: we don't need them
     args.update_hoards(args.doc_ids)

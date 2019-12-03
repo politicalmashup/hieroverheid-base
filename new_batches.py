@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 from itertools import zip_longest
 from pathlib import Path
 
@@ -105,17 +106,13 @@ def get_new_batches():
                 break
             elif tapi_doc_exists(doc_ids[0]):
                 # todo: search this line
+                print(f'offending doc ID: {doc_ids[0]}', file=sys.stderr)
                 raise NotImplementedError('need to search this line for the highest loaded ID')
             else:
                 new_batches.append(line)
 
         for line in reversed(new_batches):
             print(line.rstrip())
-
-
-"""
-new_batches.py | parallel 'tee >(upload_document.py ...) | make_abbr_hoards'
-"""
 
 
 if __name__ == '__main__':
