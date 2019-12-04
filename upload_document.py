@@ -36,8 +36,8 @@ def upload_docs(cli_args):
                 'document_id': f'orid:{doc_id}',
                 'title': doc_source['name'],
                 'sections': [
-                    {'heading': f'page {1 + i}', 'body': body or '---'}
-                    for i, body in enumerate(doc_source['text'])
+                    {'heading': f'page {1 + i}', 'body': body.strip() or '---'}
+                    for i, body in enumerate(doc_source['text'][:5000])
                 ]
             }
         except KeyError:
@@ -50,7 +50,7 @@ def upload_docs(cli_args):
             if not cli_args.quiet:
                 print(resp.text)
         else:
-            print(resp.status_code, resp.text, file=sys.stderr)
+            print(resp.status_code, resp.text, doc_id, file=sys.stderr)
 
 
 if __name__ == '__main__':
