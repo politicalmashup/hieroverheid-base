@@ -41,6 +41,14 @@ def update_hoards_for_docs(doc_ids):
                 if orid
             ]
         })
+        if not existing_hoards_resp.ok:
+            print(
+                existing_hoards_resp.status_code,
+                f'GET Word Hoard list for ORIDs {doc_id, parent_id, grandparent_id, committee_id}',
+                file=sys.stderr
+            )
+            continue
+
         existing_hoards = {
             int(doc_id_re.search(hoard_data['name']).group(1)): hoard_data
             for hoard_data in existing_hoards_resp.json()['items']
