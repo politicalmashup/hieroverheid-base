@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import argparse
+import re
 import sys
 from itertools import zip_longest
 from pathlib import Path
@@ -43,7 +45,13 @@ def get_doc_ids(index):
         query={
             '_source': False,
             'query': {
-                'match_all': {},
+                'bool': {
+                    'filter': {
+                        'match': {  # should be 'term' if OSI used explicit mapping (i.e. keyword)
+                            '@type': 'MediaObject',
+                        },
+                    },
+                },
             },
         },
     )
@@ -58,8 +66,11 @@ def update_index_state(index_filter=ORSI_FILTER):
     modified_indices = get_modified_indices(index_filter)
     for name, doc_count in modified_indices:
         index_ids = get_doc_ids(f'{name}_*')
-        assert len(index_ids) == int(doc_count), \
-            f'ES count is {doc_count} but I got {len(index_ids)} IDs'
+        if index_ids:
+            print(f'index {name} contains {len(index_ids)} MediaObjects', file=sys.stderr)
+        else:
+            print(f'index {name} does not contain MediaObjects', file=sys.stderr)
+            continue
 
         existing_state_files = state_dir.glob(f'{name}.*.ids')
         old_lines = []
@@ -80,7 +91,7 @@ def update_index_state(index_filter=ORSI_FILTER):
 
             chunks = [
                 filter(None, chunk)
-                for chunk in zip_longest(*[iter(index_ids)] * 500)
+                for chunk in zip_longest(*[iter(index_ids)] * 200)
             ]
             for chunk in chunks:
                 print(' '.join(chunk), file=f)
@@ -92,8 +103,8 @@ def tapi_doc_exists(doc_id):
     return resp.ok
 
 
-def get_new_batches():
-    index_files = state_dir.glob('*.ids')
+def get_new_batches(index_filter=ORSI_FILTER):
+    index_files = state_dir.glob(f'{index_filter}.ids')
     for f_path in index_files:
         new_batches = []
         with f_path.open() as f:
@@ -115,6 +126,23 @@ def get_new_batches():
             print(line.rstrip())
 
 
+def index_filter_type(arg_value, pattern=re.compile(r'^o[\w-]+\*$')):
+    if not pattern.match(arg_value):
+        raise argparse.ArgumentTypeError('filter must start with "o" and end with "*"')
+    return arg_value
+
+
 if __name__ == '__main__':
-    update_index_state('osi_*')
-    get_new_batches()
+    parser = argparse.ArgumentParser(
+        description='Update index state and return ORIDs of documents that are not in the TAPI.'
+    )
+    parser.add_argument(
+        'index_filter',
+        nargs='?',
+        default='o*',
+        type=index_filter_type,
+        help='Elasticsearch index filter (also used for index-state glob)'
+    )
+    args = parser.parse_args()
+    update_index_state(args.index_filter)
+    get_new_batches(args.index_filter)

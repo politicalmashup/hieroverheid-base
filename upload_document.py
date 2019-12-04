@@ -14,7 +14,7 @@ es_client = Elasticsearch(ES_ORI_URL)
 def download_docs(doc_ids):
     result = scan(
         es_client,
-        scroll='1m',
+        scroll='2m',
         size=50,
         index='o*',
         query={
