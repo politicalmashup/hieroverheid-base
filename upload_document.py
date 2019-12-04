@@ -22,6 +22,7 @@ def download_docs(doc_ids):
                 'ids': {'values': doc_ids}
             }
         },
+        raise_on_error=False,
     )
     for hit in result:
         yield hit['_source']
