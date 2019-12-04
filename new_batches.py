@@ -116,14 +116,31 @@ def get_new_batches(index_filter=ORSI_FILTER):
                 # this line should be fully loaded
                 break
             elif tapi_doc_exists(doc_ids[0]):
-                # todo: search this line
-                print(f'offending doc ID: {doc_ids[0]}', file=sys.stderr)
-                raise NotImplementedError('need to search this line for the highest loaded ID')
+                unloaded_line = slice_partial_line(doc_ids)
+                if unloaded_line:
+                    new_batches.append(unloaded_line)
+                else:
+                    raise ValueError(f'got empty (unloaded) line: {line!r} {unloaded_line!r}')
             else:
                 new_batches.append(line)
 
         for line in reversed(new_batches):
             print(line.rstrip())
+
+
+def slice_partial_line(doc_ids, lo=0, hi=None):
+    if hi is None:
+        hi = len(doc_ids)
+
+    while lo < hi:
+        mid = lo + (hi - lo) // 2
+        if tapi_doc_exists(doc_ids[mid]):
+            lo = mid + 1
+        else:
+            hi = mid - 1
+
+    ids_slice = doc_ids[lo:]
+    return ' '.join(ids_slice) if ids_slice else None
 
 
 def index_filter_type(arg_value, pattern=re.compile(r'^o[\w-]+\*$')):
