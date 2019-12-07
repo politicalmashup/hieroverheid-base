@@ -1,5 +1,6 @@
 TAPI_ROOT_URL = "https://topics-dev.platform.co.nl/"
-# TAPI_ROOT_URL = "http://localhost:8000/"
+# TAPI_ROOT_URL = "http://localhost:8001/"
+# import os
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 document_list_url = f"{TAPI_ROOT_URL}dev/document/"
