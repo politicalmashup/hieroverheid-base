@@ -32,6 +32,10 @@ def upload_docs(cli_args):
     for doc_source in download_docs(cli_args.doc_ids):
         doc_id = doc_source['@id']
         try:
+            if isinstance(doc_source['text'], str):
+                print(f'orid:{doc_id} text has not been split into pages', file=sys.stderr)
+                continue
+
             tapi_data = {
                 'document_id': f'orid:{doc_id}',
                 'title': doc_source['name'],
