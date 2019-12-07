@@ -162,6 +162,7 @@ def update_all_hoards(_):
     """
     Update word hoards with the abbreviations of all documents.
     """
+    # TODO: refactor using index-state
     resp = oauth_client.get(document_list_url)
     document_list = resp.json()['documents']
     document_ids = [

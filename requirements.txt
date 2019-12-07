@@ -2,3 +2,4 @@ oauthlib
 requests
 requests_oauthlib
 elasticsearch~=6.3
+tqdm~=4.40

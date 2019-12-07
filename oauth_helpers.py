@@ -1,13 +1,23 @@
 
 from oauthlib.oauth2 import BackendApplicationClient
+from requests.adapters import HTTPAdapter
 from requests_oauthlib import OAuth2Session
+from urllib3 import Retry
 
 from constants import TAPI_ROOT_URL
 from oauth_credentials import client_id, client_secret
 
 
 def get_client(client_id, scope=None):
-    return OAuth2Session(client=BackendApplicationClient(client_id=client_id), scope=scope)
+    session = OAuth2Session(client=BackendApplicationClient(client_id=client_id), scope=scope)
+    retry = Retry(
+        connect=2,
+        backoff_factor=1,
+        status_forcelist=(500, 502, 504),
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('https://', adapter)
+    return session
 
 
 def get_token(client, client_secret, scope):

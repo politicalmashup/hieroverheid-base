@@ -7,6 +7,7 @@ from pathlib import Path
 
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
+from tqdm import tqdm
 
 from constants import ES_ORI_URL, ORSI_FILTER, document_list_url
 from oauth_helpers import oauth_client
@@ -103,7 +104,7 @@ def tapi_doc_exists(doc_id):
     return resp.ok
 
 
-def get_new_batches(index_filter=ORSI_FILTER):
+def get_new_batches(index_filter=ORSI_FILTER, revisit=False):
     index_files = state_dir.glob(f'{index_filter}.ids')
     for f_path in index_files:
         new_batches = []
@@ -114,18 +115,21 @@ def get_new_batches(index_filter=ORSI_FILTER):
             doc_ids = line.split()
             if tapi_doc_exists(doc_ids[-1]):
                 # this line should be fully loaded
-                break
+                if revisit:
+                    continue
+                else:  # assume that all previous lines have been loaded
+                    break
             elif tapi_doc_exists(doc_ids[0]):
                 unloaded_line = slice_partial_line(doc_ids)
                 if unloaded_line:
                     new_batches.append(unloaded_line)
-                else:
-                    raise ValueError(f'got empty (unloaded) line: {line!r} {unloaded_line!r}')
+                # else:
+                #     raise ValueError(f'got empty (unloaded) line: {line!r} {unloaded_line!r}')
             else:
                 new_batches.append(line)
 
-        for line in reversed(new_batches):
-            print(line.rstrip())
+        for line in tqdm(reversed(new_batches), desc=f_path.name, total=len(new_batches)):
+            print(line.rstrip(), flush=True)
 
 
 def slice_partial_line(doc_ids, lo=0, hi=None):
@@ -160,6 +164,7 @@ if __name__ == '__main__':
         type=index_filter_type,
         help='Elasticsearch index filter (also used for index-state glob)'
     )
+    parser.add_argument('--revisit', action='store_true')
     args = parser.parse_args()
     update_index_state(args.index_filter)
-    get_new_batches(args.index_filter)
+    get_new_batches(args.index_filter, args.revisit)
