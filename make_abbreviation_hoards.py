@@ -3,7 +3,10 @@ import re
 import sys
 from argparse import ArgumentParser
 
+from tqdm import tqdm
+
 from constants import document_list_url, wordhoard_list_url, custom_topics_url
+from new_batches import state_dir
 from oauth_helpers import oauth_client
 from wordhoard_helpers import post_wordhoard_payload, find_super_items
 
@@ -14,7 +17,7 @@ def log_hoard_action(item_id, item_type, count_created, count_updated):
     print(f"{item_type}\t{item_id}\t+{count_created}\t~{count_updated}")
 
 
-def update_hoards_for_docs(doc_ids):
+def update_hoards_for_docs(*doc_ids):
     """
     Update word hoards with the abbreviations of specified documents.
     """
@@ -73,6 +76,15 @@ def create_new_hoard(item_id, item_type, abbr_data):
     Create a new word hoard with fresh topics for this item.
     """
     new_topics_resp = oauth_client.post(custom_topics_url, json=abbr_data)
+    if not new_topics_resp.ok:
+        print(
+            new_topics_resp.status_code,
+            f'POST topics',
+            new_topics_resp.text,
+            file=sys.stderr
+        )
+        return
+
     status, err = post_wordhoard_payload(
         item_id, item_type, new_topics_resp.json()['topics'], wh_type='abbreviations'
     )
@@ -89,6 +101,10 @@ def update_hoard(item_id, item_type, item_hoard, abbr_topics):
     """
     item_hoard_url = f"{wordhoard_list_url}{item_hoard['id']}/"
     get_resp = oauth_client.get(item_hoard_url)
+    if not get_resp.ok:
+        print(get_resp.status_code, f'GET {item_hoard_url}', get_resp.text, file=sys.stderr)
+        return
+
     item_hoard = get_resp.json()
     hoard_topics = {
         topic_data['abbreviation']: topic_data
@@ -158,19 +174,22 @@ def get_abbreviations(doc_id):
     return resp.json()
 
 
-def update_all_hoards(_):
+def update_hoards_for_index(index_filter):
     """
-    Update word hoards with the abbreviations of all documents.
+    Update word hoards with the abbreviations of all documents in the specified index.
     """
-    # TODO: refactor using index-state
-    resp = oauth_client.get(document_list_url)
-    document_list = resp.json()['documents']
-    document_ids = [
-        int(doc['document_id'].split(':')[1])
-        for doc in document_list
-    ]
-    print('updating hoards for documents:', document_ids, file=sys.stderr)
-    update_hoards_for_docs(document_ids)
+    index_files = state_dir.glob(f'{index_filter}.ids')
+    for f_path in index_files:
+        with f_path.open() as f:
+            lines = list(filter(None, f))
+
+        total = sum(1 + line.count(' ') for line in lines)
+        with tqdm(desc=f_path.name, total=total) as progress_bar:
+            for line in lines:
+                document_ids = line.split()
+                for doc_id in document_ids:
+                    update_hoards_for_docs(int(doc_id))
+                    progress_bar.update(1)
 
 
 if __name__ == '__main__':
@@ -183,9 +202,10 @@ if __name__ == '__main__':
         help="Any number of orid:<doc_id>s"
     )
     group.add_argument(
-        '--all', dest='update_hoards', action='store_const',
-        const=update_all_hoards, default=update_hoards_for_docs,
-        help='update the hoards for all existing documents (instead of for <doc_id>s)'
+        '--index', help='update all hoards for the given index filter'
     )
     args = parser.parse_args()
-    args.update_hoards(args.doc_ids)
+    if args.index:
+        update_hoards_for_index(args.index)
+    else:
+        update_hoards_for_docs(*args.doc_ids)
