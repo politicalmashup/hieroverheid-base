@@ -47,11 +47,12 @@ def get_doc_ids(index):
             '_source': False,
             'query': {
                 'bool': {
-                    'filter': {
-                        'match': {  # should be 'term' if OSI used explicit mapping (i.e. keyword)
+                    'filter': [
+                        {'match': {  # should be 'term' if OSI used explicit mapping (i.e. keyword)
                             '@type': 'MediaObject',
-                        },
-                    },
+                        }},
+                        {'exists': {'field': 'text'}},
+                    ],
                 },
             },
         },
@@ -68,7 +69,7 @@ def update_index_state(index_filter=ORSI_FILTER):
     for name, doc_count in modified_indices:
         index_ids = get_doc_ids(f'{name}_*')
         if index_ids:
-            print(f'index {name} contains {len(index_ids)} MediaObjects', file=sys.stderr)
+            print(f'index {name} contains {len(index_ids)} valid MediaObjects', file=sys.stderr)
         else:
             print(f'index {name} does not contain MediaObjects', file=sys.stderr)
             continue
