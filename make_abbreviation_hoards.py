@@ -116,8 +116,7 @@ def update_hoard(item_id, item_type, item_hoard, abbr_topics):
         if abbr in item_topics:
             new_topic_data = item_topics.pop(abbr)
             if new_topic_data['sources'][0] not in topic_data['sources']:
-                # this relies on a DSE bug; the intention is to add to set
-                topic_data['sources'] = new_topic_data['sources']  # FIXME: see above
+                topic_data['sources'] += new_topic_data['sources']
                 new_topic_name_lower = new_topic_data['canonical_name'].lower()
                 if (
                         new_topic_name_lower
@@ -125,8 +124,7 @@ def update_hoard(item_id, item_type, item_hoard, abbr_topics):
                         and new_topic_name_lower
                         not in (name.lower() for name in topic_data['names'])
                 ):
-                    # this relies on a DSE bug; the intention is to add to set
-                    topic_data['names'] = [new_topic_data['canonical_name']]  # FIXME: see above
+                    topic_data['names'].append(new_topic_data['canonical_name'])
 
                 topics_to_update.append(topic_data)
 
