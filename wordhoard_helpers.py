@@ -70,9 +70,7 @@ def post_wordhoard_payload(item_id, rdf_type, topics, wordhoard_id=None, wh_type
     orid = f"orid:{item_id}"
     wordhoard_payload = empty_wordhoard_payload(orid, rdf_type, wh_type)
     for topic in topics:
-        #  Key to local_name mappings (local_name is None in our case)
-        topic_id = topic['id']
-        wordhoard_payload['topics'][topic_id] = None
+        wordhoard_payload['topics'][topic['id']] = topic.get('local_name')
 
     if wordhoard_id:
         response = post_with_client(
