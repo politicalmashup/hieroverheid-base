@@ -81,3 +81,22 @@ Retry commands:
     n (or any other) - reject current text as a new glossary item. Will skip this line.
     y (or no input) - accept current text as a new glossary item.
 ```
+
+## Power User Recipes
+
+This is a collection of commands that have proven useful,
+but which should also be approached with caution.
+
+### Abbreviation mining
+
+To delete Word Hoards and their contained topics for all documents
+listed in an index-state file:
+
+```shell script
+cat index-state/<index-name>.ids | parallel --jobs=4 --colsep=' ' --lb './delete_doc_hoards.py --and-topics --non-interactive {}'
+```
+
+Particular care should be taken with the `--and-topics` argument:
+since topics can be designated in multiple hoards, deleting all
+topics that are designated in a hoard that is meant to be deleted,
+may also cause topics to disappear from hoards that are preserved.
