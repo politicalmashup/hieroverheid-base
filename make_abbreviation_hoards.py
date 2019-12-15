@@ -127,8 +127,11 @@ def update_hoard(item_id, item_type, item_hoard, abbr_topics):
             'topics': list(item_topics.values())
         })
         if new_topics_resp.ok:
+            new_topics = new_topics_resp.json()['topics']
+            for topic_data in new_topics:
+                abbr_topics[topic_data['abbreviation']].update(topic_data)
             status, err = post_wordhoard_payload(
-                item_id, item_type, new_topics_resp.json()['topics'],
+                item_id, item_type, new_topics,
                 wordhoard_id=item_hoard['id'],
                 wh_type='abbreviations'
             )
