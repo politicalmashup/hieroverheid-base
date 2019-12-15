@@ -38,7 +38,7 @@ On Ubuntu, it can be installed with `sudo apt install parallel`.
 This has only been tested on Ubuntu 18.04.
 
 ```shell script
-./new_batches.py 'osi_*' | parallel --jobs=2 --colsep=' ' --lb './upload_document.py --quiet {} && ./make_abbreviation_hoards.py {}' 2> >(tee "logs/osi-load-$(date +"%Y%m%dT%H%M").err.log") > "logs/osi-hoards-$(date +"%Y%m%dT%H%M").log"
+{ ./new_batches.py 'osi_*' | parallel --jobs=2 --colsep=' ' --lb './upload_document.py --quiet {} && ./make_abbreviation_hoards.py {}'; } 2> >(tee "logs/osi-load-$(date +"%Y%m%dT%H%M").err.log") > "logs/osi-hoards-$(date +"%Y%m%dT%H%M").log"
 ```
 
 > O. Tange (2011): GNU Parallel - The Command-Line Power Tool, 
