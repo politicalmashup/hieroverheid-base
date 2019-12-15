@@ -2,6 +2,7 @@
 .python-version
 venv/
 __pycache__/
+.env
 
 credentials.json
 extracted_texts.json

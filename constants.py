@@ -1,7 +1,11 @@
-TAPI_ROOT_URL = "https://topics-dev.platform.co.nl/"
-# TAPI_ROOT_URL = "http://localhost:8001/"
-# import os
-# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+TAPI_ROOT_URL = os.getenv('TAPI_ROOT_URL', "https://topics-dev.platform.co.nl/")
+if 'localhost' in TAPI_ROOT_URL:
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 document_list_url = f"{TAPI_ROOT_URL}dev/document/"
 custom_topics_url = f"{TAPI_ROOT_URL}dev/custom/topic/"
