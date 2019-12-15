@@ -48,9 +48,6 @@ In the example above, the output of the command is redirected to log files.
 The `stderr` output is simultaneously written to the terminal and to a `.err.log` file.
 The `stdout` output is only written to a log file.
 
-When inspecting the error log, the output of the progress bar may cause visual clutter.
-A cleaner version of this log can be viewed with `col -b < my-errors.err.log | less`.
-
 ### Updating hoards for existing documents
 When all documents from an index have been uploaded to the TAPI,
 their corresponding word hoards may be updated with the following command:
@@ -61,6 +58,8 @@ their corresponding word hoards may be updated with the following command:
 
 Logging the output to files can be approached in the same way
 as for the loading and mining pipeline.
+When inspecting the error log, the output of the progress bar may cause visual clutter.
+A cleaner version of this log can be viewed with `col -b < my-errors.err.log | less`.
 
 ## Definition Mining
 Run `python extract_texts.py` to extract texts first.
