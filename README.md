@@ -1,6 +1,10 @@
 # Topic Mining for HierOverheid
 
 ## Initial Setup
+Requires Python version >= 3.7.
+
+Clone this repository and install packages with `pip install -r requirements.txt`.
+
 Create an `oauth_credentials.py` file in the project root with the following structure:
 
 ```python
@@ -24,6 +28,7 @@ optional arguments:
   --index INDEX  update all hoards for the given index filter
 ```
 
+### Loading new documents from scratch
 A prerequisite for abbreviation mining is that documents have been uploaded to the TAPI.
 The `new_batches.py` script can be used to identify batches of documents that have not yet been loaded.
 This can be used as the basis of a loading and mining pipeline.
@@ -46,14 +51,22 @@ The `stdout` output is only written to a log file.
 When inspecting the error log, the output of the progress bar may cause visual clutter.
 A cleaner version of this log can be viewed with `col -b < my-errors.err.log | less`.
 
-## Definition Mining
+### Updating hoards for existing documents
+When all documents from an index have been uploaded to the TAPI,
+their corresponding word hoards may be updated with the following command:
 
+```shell script
+./make_abbreviation_hoards.py --index='osi_*'
+```
+
+Logging the output to files can be approached in the same way
+as for the loading and mining pipeline.
+
+## Definition Mining
 Run `python extract_texts.py` to extract texts first.
 
 ### Extracting the glossaries
-
 - Install `evince` pdf viewer using `sudo snap install evince`
-
 - Then use `find_glossary_in_texts.py` to find the glossaries
 
 
@@ -83,12 +96,10 @@ Retry commands:
 ```
 
 ## Power User Recipes
-
 This is a collection of commands that have proven useful,
 but which should also be approached with caution.
 
 ### Abbreviation mining
-
 To delete Word Hoards and their contained topics for all documents
 listed in an index-state file:
 
@@ -100,3 +111,10 @@ Particular care should be taken with the `--and-topics` argument:
 since topics can be designated in multiple hoards, deleting all
 topics that are designated in a hoard that is meant to be deleted,
 may also cause topics to disappear from hoards that are preserved.
+
+To achieve roughly the same as with `./make_abbreviation_hoards.py --index`,
+but in parallel:
+
+```shell script
+cat index-state/<index-name>.ids | parallel --jobs=4 --colsep=' ' --lb './make_abbreviation_hoards.py {}'
+```

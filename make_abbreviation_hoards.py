@@ -14,7 +14,7 @@ doc_id_re = re.compile(r'orid:(\d+)')
 
 
 def log_hoard_action(item_id, item_type, count_created, count_updated):
-    print(f"{item_type}\t{item_id}\t+{count_created}\t~{count_updated}")
+    print(f"{item_type}\t{item_id}\t+{count_created}\t~{count_updated}", flush=True)
 
 
 def update_hoards_for_docs(*doc_ids):
@@ -117,6 +117,7 @@ def update_hoard(item_id, item_type, item_hoard, abbr_topics):
     hoard_topics = {  # FIXME: the key may be None for definition topics
         topic_data['abbreviation'].lower(): topic_data
         for topic_data in item_hoard['topics']
+        if 'abbreviation' in topic_data  # this is a quick fix
     }
     topics_to_update, item_topics = merge_with_existing(abbr_topics, hoard_topics)
 
