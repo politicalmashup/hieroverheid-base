@@ -70,6 +70,19 @@ def update_hoards_for_docs(*doc_ids):
                     create_new_hoard(item_id, item_type, abbr_topics)
 
 
+def get_abbreviations(doc_id):
+    """
+    Get abbreviations for a single document.
+    """
+    doc_abbreviations_url = f'{document_list_url}orid:{doc_id}/abbreviations/'
+    resp = oauth_client.get(doc_abbreviations_url)
+    if not resp.ok:
+        print(resp.status_code, resp.text, doc_id, file=sys.stderr)
+        return None
+
+    return resp.json()
+
+
 def create_new_hoard(item_id, item_type, abbr_topics):
     """
     Create a new word hoard with fresh and existing topics for this item.
@@ -176,8 +189,8 @@ def merge_with_existing(abbr_topics, hoard_topics):
             existing_topic = hoard_topics[short_lower]
             if any(source not in existing_topic['sources'] for source in topic_data['sources']):
                 topics_to_update.append(existing_topic)
-                existing_topic['sources'] = list(
-                    sorted(set(topic_data['sources']) | set(existing_topic['sources']))
+                existing_topic['sources'] = add_sources(
+                    existing_topic['sources'], topic_data['sources']
                 )
                 if short != existing_topic['abbreviation']:
                     existing_topic['names'].append(short)
@@ -186,14 +199,17 @@ def merge_with_existing(abbr_topics, hoard_topics):
                     existing_topic['names'].append(long)
                     name_map[long] = short_lower
 
+                existing_topic['names'] = list(sorted(set(existing_topic['names'])))
+
             topic_data.update(existing_topic)
+
         elif long in name_map:
             existing_abbr = name_map[long]
             existing_topic = hoard_topics[existing_abbr]
             if any(source not in existing_topic['sources'] for source in topic_data['sources']):
                 topics_to_update.append(existing_topic)
-                existing_topic['sources'] = list(
-                    sorted(set(topic_data['sources']) | set(existing_topic['sources']))
+                existing_topic['sources'] = add_sources(
+                    existing_topic['sources'], topic_data['sources']
                 )
                 expected_abbr = abbreviate_term(long.lower())
                 if (
@@ -212,6 +228,8 @@ def merge_with_existing(abbr_topics, hoard_topics):
                     # add the new abbr as an alternative name
                     existing_topic['names'].append(short)
 
+                existing_topic['names'] = list(sorted(set(existing_topic['names'])))
+
             topic_data.update(existing_topic)
 
     item_topics = {
@@ -223,6 +241,19 @@ def merge_with_existing(abbr_topics, hoard_topics):
     return topics_to_update, item_topics
 
 
+def add_sources(old_sources, new_sources):
+
+    def source_sort_key(source):
+        return len(source), source
+
+    return list(
+        sorted(
+            set(old_sources) | set(new_sources),
+            key=source_sort_key
+        )
+    )
+
+
 abbreviate_re = re.compile(r'(\w)[a-z]+')
 
 
@@ -232,19 +263,6 @@ def abbreviate_term(long_form):
         return abbr.replace('-', '').replace(' ', '-')
 
     return abbr.replace(' ', '')
-
-
-def get_abbreviations(doc_id):
-    """
-    Get abbreviations for a single document.
-    """
-    doc_abbreviations_url = f'{document_list_url}orid:{doc_id}/abbreviations/'
-    resp = oauth_client.get(doc_abbreviations_url)
-    if not resp.ok:
-        print(resp.status_code, resp.text, doc_id, file=sys.stderr)
-        return None
-
-    return resp.json()
 
 
 def update_hoards_for_index(index_filter):
