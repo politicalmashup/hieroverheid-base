@@ -3,9 +3,9 @@ import argparse
 import sys
 
 from elasticsearch import Elasticsearch
-from elasticsearch.helpers import scan
 
 from constants import document_list_url, ES_ORI_URL
+from es_helpers import scan
 from oauth_helpers import oauth_client
 
 es_client = Elasticsearch(ES_ORI_URL)
@@ -14,8 +14,8 @@ es_client = Elasticsearch(ES_ORI_URL)
 def download_docs(doc_ids):
     result = scan(
         es_client,
-        scroll='1m',
-        size=10,
+        scroll='2m',
+        size=20,
         index='o*',
         query={
             'query': {
