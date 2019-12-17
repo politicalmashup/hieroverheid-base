@@ -48,6 +48,13 @@ In the example above, the output of the command is redirected to log files.
 The `stderr` output is simultaneously written to the terminal and to a `.err.log` file.
 The `stdout` output is only written to a log file.
 
+After running this command multiple times, log files will accumulate.
+For convenience, the following commands are provided to check on the latest log/progress:
+ ```shell script
+tail -f $(ls -t logs/osi-hoards* | head -1)
+tail -f $(ls -t logs/osi-load* | head -1)
+```
+
 ### Updating hoards for existing documents
 When all documents from an index have been uploaded to the TAPI,
 their corresponding word hoards may be updated with the following command:
