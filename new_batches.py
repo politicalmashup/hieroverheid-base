@@ -6,10 +6,10 @@ from itertools import zip_longest
 from pathlib import Path
 
 from elasticsearch import Elasticsearch
+from elasticsearch.helpers import scan
 from tqdm import tqdm
 
 from constants import ES_ORI_URL, ORSI_FILTER, document_list_url
-from es_helpers import scan
 from oauth_helpers import oauth_client
 
 es_client = Elasticsearch(ES_ORI_URL)

@@ -3,9 +3,9 @@ import argparse
 import sys
 
 from elasticsearch import Elasticsearch
+from elasticsearch.helpers import scan
 
 from constants import document_list_url, ES_ORI_URL
-from es_helpers import scan
 from oauth_helpers import oauth_client
 
 es_client = Elasticsearch(ES_ORI_URL)
