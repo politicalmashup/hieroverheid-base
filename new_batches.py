@@ -40,6 +40,7 @@ def get_modified_indices(index_filter=ORSI_FILTER):
 
 
 def get_doc_ids(index):
+    print(f'getting doc IDs for index {index} ...', file=sys.stderr)
     result = scan(
         es_client,
         index=index,
@@ -48,17 +49,26 @@ def get_doc_ids(index):
             'query': {
                 'bool': {
                     'filter': [
-                        {'match': {  # should be 'term' if OSI used explicit mapping (i.e. keyword)
-                            '@type': 'MediaObject',
+                        {'term': {
+                            '@type.keyword': 'MediaObject',
                         }},
                         {'exists': {'field': 'text'}},
                     ],
                 },
             },
+            "script_fields": {
+                "text-is-list": {
+                    "script": "params['_source']['text'] instanceof List"
+                }
+            }
         },
     )
     doc_ids = sorted(
-        (hit['_id'] for hit in result),
+        (
+            hit['_id']
+            for hit in result
+            if hit['fields']['text-is-list'][0] is True
+        ),
         key=lambda did: (len(did), did),
     )
     return doc_ids
