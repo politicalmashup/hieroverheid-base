@@ -44,6 +44,7 @@ def get_doc_ids(index):
     result = scan(
         es_client,
         index=index,
+        size=200,
         query={
             '_source': False,
             'query': {
