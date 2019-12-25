@@ -135,8 +135,6 @@ def get_new_batches(index_filter=ORSI_FILTER, revisit=False):
                 unloaded_line = slice_partial_line(doc_ids)
                 if unloaded_line:
                     new_batches.append(unloaded_line)
-                # else:
-                #     raise ValueError(f'got empty (unloaded) line: {line!r} {unloaded_line!r}')
             else:
                 new_batches.append(line)
 
@@ -176,7 +174,11 @@ if __name__ == '__main__':
         type=index_filter_type,
         help='Elasticsearch index filter (also used for index-state glob)'
     )
-    parser.add_argument('--revisit', action='store_true')
+    parser.add_argument(
+        '--revisit',
+        action='store_true',
+        help='check if old batches are present in the TAPI, and print their non-loaded tails'
+    )
     args = parser.parse_args()
     update_index_state(args.index_filter)
     get_new_batches(args.index_filter, args.revisit)
