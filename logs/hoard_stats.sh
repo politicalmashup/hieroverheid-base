@@ -36,5 +36,5 @@ printf "\nNumber of validation errors per error log:\n\n"
 for f in logs/o*-load-*.err.log
 do
   INVALIDS=$(col -b < "$f" | grep -c '400 ')
-  [[ "$INVALIDS" -gt "0" ]] && echo "$f: $INVALIDS invalid definitions"
+  [[ "$INVALIDS" -gt "0" ]] && echo "$f: $INVALIDS clashing definitions"
 done
