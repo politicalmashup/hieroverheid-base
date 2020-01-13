@@ -2,7 +2,7 @@
 # run this script from the project root dir
 
 printf "Number of loaded documents per ES index:\n"
-wc -w index-state/osi_*.ids
+wc -w index-state/o*.ids
 printf "\n"
 
 # count created and updated abbr definitions per log file
@@ -36,5 +36,5 @@ printf "\nNumber of validation errors per error log:\n\n"
 for f in logs/o*-load-*.err.log
 do
   INVALIDS=$(col -b < "$f" | grep -c '400 ')
-  echo "$f: $INVALIDS invalid definitions"
+  [[ "$INVALIDS" -gt "0" ]] && echo "$f: $INVALIDS invalid definitions"
 done
