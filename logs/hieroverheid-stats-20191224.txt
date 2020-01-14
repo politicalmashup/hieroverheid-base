@@ -1,0 +1,241 @@
+Number of loaded documents per ES index:
+
+    346 index-state/ori_aalsmeer.9906.ids
+    831 index-state/ori_alkmaar.20361.ids
+    406 index-state/ori_almelo.16719.ids
+    136 index-state/ori_almere.18538.ids
+    135 index-state/ori_amersfoort.12284.ids
+    306 index-state/ori_amstelveen.15851.ids
+  19491 index-state/ori_amsterdam.74180.ids
+    553 index-state/ori_amsterdam_centrum.26318.ids
+   1233 index-state/ori_amsterdam_nieuw-west.17065.ids
+    547 index-state/ori_amsterdam_noord.10936.ids
+    838 index-state/ori_amsterdam_oost.8770.ids
+     76 index-state/ori_amsterdam_west.2560.ids
+    615 index-state/ori_amsterdam_zuid.17681.ids
+    381 index-state/ori_amsterdam_zuidoost.9971.ids
+    793 index-state/ori_arnhem.21870.ids
+    236 index-state/ori_baarn.11845.ids
+    289 index-state/ori_barneveld.16324.ids
+      9 index-state/ori_beemster.4580.ids
+    519 index-state/ori_binnenmaas.4798.ids
+    866 index-state/ori_bodegravenreeuwijk.18338.ids
+      4 index-state/ori_borne.3781.ids
+   1115 index-state/ori_boxmeer.4761.ids
+    548 index-state/ori_buren.3879.ids
+    231 index-state/ori_capelle_ad_ijssel.19937.ids
+     58 index-state/ori_castricum.6345.ids
+    167 index-state/ori_culemborg.11011.ids
+      4 index-state/ori_den_haag.18835.ids
+     60 index-state/ori_den_helder.11355.ids
+    337 index-state/ori_deventer.9123.ids
+    530 index-state/ori_de_wolden.2217.ids
+    855 index-state/ori_diemen.2921.ids
+    225 index-state/ori_doetinchem.3266.ids
+    172 index-state/ori_dongen.5933.ids
+    430 index-state/ori_drimmelen.4020.ids
+    127 index-state/ori_druten.2829.ids
+    172 index-state/ori_edam-volendam.11079.ids
+    219 index-state/ori_ede.11010.ids
+   1437 index-state/ori_emmen.3127.ids
+    685 index-state/ori_enschede.20442.ids
+    267 index-state/ori_epe.11400.ids
+    663 index-state/ori_etten-leur.23593.ids
+    112 index-state/ori_gouda.9425.ids
+   2851 index-state/ori_groningen.35846.ids
+     88 index-state/ori_haarlemmermeer.14956.ids
+    359 index-state/ori_hardenberg.15778.ids
+    755 index-state/ori_harderwijk.7106.ids
+     83 index-state/ori_heemskerk.6523.ids
+    196 index-state/ori_heerde.6515.ids
+    265 index-state/ori_hendrik-ido-ambacht.10933.ids
+    546 index-state/ori_hilvarenbeek.12537.ids
+    450 index-state/ori_hilversum.26741.ids
+   1925 index-state/ori_hollands_kroon.5032.ids
+     23 index-state/ori_houten.7846.ids
+    676 index-state/ori_hulst.8689.ids
+    443 index-state/ori_katwijk.52952.ids
+    280 index-state/ori_krimpen_ad_ijssel.6679.ids
+   1000 index-state/ori_krimpenerwaard.12040.ids
+     50 index-state/ori_landsmeer.4434.ids
+    889 index-state/ori_leeuwarden.22831.ids
+    193 index-state/ori_leiden.20119.ids
+     63 index-state/ori_leiderdorp.4953.ids
+      4 index-state/ori_leusden.3567.ids
+    229 index-state/ori_lingewaard.14249.ids
+     52 index-state/ori_loon_op_zand.3927.ids
+    279 index-state/ori_losser.3693.ids
+   2833 index-state/ori_maassluis.37708.ids
+    255 index-state/ori_maastricht.14737.ids
+   2068 index-state/ori_medemblik.9482.ids
+    236 index-state/ori_meierijstad.9462.ids
+    613 index-state/ori_meppel.5398.ids
+     54 index-state/ori_moerdijk.3992.ids
+    139 index-state/ori_nieuwegein.21243.ids
+   1901 index-state/ori_nieuwkoop.3817.ids
+    491 index-state/ori_nijkerk.2958.ids
+    141 index-state/ori_nijmegen.10493.ids
+      9 index-state/ori_noordoostpolder.6043.ids
+    204 index-state/ori_noordwijk.9927.ids
+    717 index-state/ori_oisterwijk.16420.ids
+    769 index-state/ori_oldambt.2538.ids
+    136 index-state/ori_ommen.10062.ids
+    124 index-state/ori_oosterhout.4397.ids
+    976 index-state/ori_oost_gelre.5798.ids
+    399 index-state/ori_oss.30652.ids
+     75 index-state/ori_oude_ijsselstreek.4954.ids
+    369 index-state/ori_overbetuwe.8374.ids
+    373 index-state/ori_raalte.19220.ids
+    348 index-state/ori_rheden.5803.ids
+    280 index-state/ori_rhenen.10537.ids
+    111 index-state/ori_rijswijk.7377.ids
+    543 index-state/ori_roermond.8423.ids
+      1 index-state/ori_roosendaal.4213.ids
+   1089 index-state/ori_rucphen.8878.ids
+    192 index-state/ori_schagen.12803.ids
+    187 index-state/ori_schiedam.22227.ids
+   5478 index-state/ori_soest.9516.ids
+    545 index-state/ori_staphorst.7986.ids
+    206 index-state/ori_steenbergen.4793.ids
+   1147 index-state/ori_steenwijkerland.3717.ids
+   1335 index-state/ori_texel.4882.ids
+   2279 index-state/ori_teylingen.7308.ids
+   1256 index-state/ori_utrecht.39077.ids
+    289 index-state/ori_veenendaal.27046.ids
+    949 index-state/ori_velsen.4726.ids
+    376 index-state/ori_vlaardingen.16481.ids
+    156 index-state/ori_vlissingen.3610.ids
+    473 index-state/ori_voorschoten.12239.ids
+    251 index-state/ori_voorst.18874.ids
+    161 index-state/ori_waalwijk.12615.ids
+    323 index-state/ori_wageningen.6067.ids
+    495 index-state/ori_wassenaar.8210.ids
+    209 index-state/ori_wijchen.11312.ids
+     69 index-state/ori_zaanstad.14316.ids
+    157 index-state/ori_zandvoort.14967.ids
+   1172 index-state/ori_zeewolde.2581.ids
+    123 index-state/ori_zeist.7687.ids
+    578 index-state/ori_zoetermeer.14320.ids
+    318 index-state/ori_zwartewaterland.4835.ids
+   1150 index-state/ori_zwolle.27135.ids
+  19955 index-state/osi_limburg.29266.ids
+  19587 index-state/osi_noord-holland.33622.ids
+   4813 index-state/osi_overijssel.9496.ids
+  16799 index-state/osi_zuid-holland.27450.ids
+ 145005 total
+
+logs/ori_a-hoards-20191218T0821.log
+  2572 abbreviation definitions were new within a committee
+  582 definitions matched a known abbreviation with a different long form
+  18.45% of definitions were previously defined with a different long form
+logs/ori_b-hoards-20191218T1211.log
+  3135 abbreviation definitions were new within a committee
+  948 definitions matched a known abbreviation with a different long form
+  23.22% of definitions were previously defined with a different long form
+logs/ori_d-hoards-20191224T0232.log
+  4121 abbreviation definitions were new within a committee
+  525 definitions matched a known abbreviation with a different long form
+  11.30% of definitions were previously defined with a different long form
+logs/ori_e-hoards-20191224T0322.log
+  4255 abbreviation definitions were new within a committee
+  864 definitions matched a known abbreviation with a different long form
+  16.88% of definitions were previously defined with a different long form
+logs/ori_g-hoards-20191224T0332.log
+  25 abbreviation definitions were new within a committee
+  0 definitions matched a known abbreviation with a different long form
+logs/ori_h-hoards-20191224T0334.log
+  4697 abbreviation definitions were new within a committee
+  510 definitions matched a known abbreviation with a different long form
+  9.79% of definitions were previously defined with a different long form
+logs/ori_k-hoards-20191224T0349.log
+  7 abbreviation definitions were new within a committee
+  0 definitions matched a known abbreviation with a different long form
+logs/ori_l-hoards-20191224T0350.log
+  294 abbreviation definitions were new within a committee
+  32 definitions matched a known abbreviation with a different long form
+  9.82% of definitions were previously defined with a different long form
+logs/ori_m-hoards-20191224T0353.log
+  4975 abbreviation definitions were new within a committee
+  1207 definitions matched a known abbreviation with a different long form
+  19.52% of definitions were previously defined with a different long form
+logs/ori_n-hoards-20191224T0415.log
+  3207 abbreviation definitions were new within a committee
+  720 definitions matched a known abbreviation with a different long form
+  18.33% of definitions were previously defined with a different long form
+logs/ori_o-hoards-20191224T0433.log
+  3523 abbreviation definitions were new within a committee
+  559 definitions matched a known abbreviation with a different long form
+  13.69% of definitions were previously defined with a different long form
+logs/ori_r-hoards-20191224T0449.log
+  2276 abbreviation definitions were new within a committee
+  520 definitions matched a known abbreviation with a different long form
+  18.60% of definitions were previously defined with a different long form
+logs/ori_s-hoards-20191224T0458.log
+  3142 abbreviation definitions were new within a committee
+  65 definitions matched a known abbreviation with a different long form
+  2.03% of definitions were previously defined with a different long form
+logs/ori_s-hoards-20191224T1109.log
+  5929 abbreviation definitions were new within a committee
+  11 definitions matched a known abbreviation with a different long form
+  0.19% of definitions were previously defined with a different long form
+logs/ori_t-hoards-20191224T1126.log
+  3919 abbreviation definitions were new within a committee
+  1298 definitions matched a known abbreviation with a different long form
+  24.88% of definitions were previously defined with a different long form
+logs/ori_u-hoards-20191224T1216.log
+  759 abbreviation definitions were new within a committee
+  0 definitions matched a known abbreviation with a different long form
+logs/ori_v-hoards-20191224T1218.log
+  2010 abbreviation definitions were new within a committee
+  106 definitions matched a known abbreviation with a different long form
+  5.01% of definitions were previously defined with a different long form
+logs/ori_w-hoards-20191224T1223.log
+  86 abbreviation definitions were new within a committee
+  0 definitions matched a known abbreviation with a different long form
+logs/ori_z-hoards-20191224T1224.log
+  2063 abbreviation definitions were new within a committee
+  192 definitions matched a known abbreviation with a different long form
+  8.51% of definitions were previously defined with a different long form
+logs/osi-hoards-20191215T1454.log
+  46466 abbreviation definitions were new within a committee
+  4722 definitions matched a known abbreviation with a different long form
+  9.22% of definitions were previously defined with a different long form
+logs/osi-hoards-20191215T2045.log
+  3623 abbreviation definitions were new within a committee
+  0 definitions matched a known abbreviation with a different long form
+logs/osi-hoards-20191215T2155.log
+  15545 abbreviation definitions were new within a committee
+  250 definitions matched a known abbreviation with a different long form
+  1.58% of definitions were previously defined with a different long form
+logs/osi-hoards-20191216T0144.log
+  42020 abbreviation definitions were new within a committee
+  2886 definitions matched a known abbreviation with a different long form
+  6.43% of definitions were previously defined with a different long form
+logs/osi-hoards-20191217T1618.log
+  1148 abbreviation definitions were new within a committee
+  1 definitions matched a known abbreviation with a different long form
+  0.09% of definitions were previously defined with a different long form
+logs/osi-hoards-20191217T2236.log
+  2550 abbreviation definitions were new within a committee
+  172 definitions matched a known abbreviation with a different long form
+  6.32% of definitions were previously defined with a different long form
+
+TOTAL
+  162347 abbreviation definitions were new within a committee
+   16170 definitions matched a known abbreviation with a different long form
+   9.06% of definitions were previously defined with a different long form
+
+Number of validation errors per error log:
+
+logs/ori_a-load-20191218T0821.err.log: 1 clashing definitions
+logs/ori_b-load-20191218T1211.err.log: 1 clashing definitions
+logs/ori_d-load-20191224T0232.err.log: 3 clashing definitions
+logs/ori_e-load-20191224T0322.err.log: 3 clashing definitions
+logs/ori_h-load-20191224T0334.err.log: 4 clashing definitions
+logs/ori_m-load-20191224T0353.err.log: 8 clashing definitions
+logs/ori_n-load-20191224T0415.err.log: 2 clashing definitions
+logs/ori_t-load-20191224T1126.err.log: 3 clashing definitions
+logs/osi-load-20191215T1454.err.log:  15 clashing definitions
+logs/osi-load-20191215T2045.err.log:   1 clashing definitions
+logs/osi-load-20191216T0144.err.log:   5 clashing definitions
+logs/osi-load-20191217T2236.err.log:  18 clashing definitions

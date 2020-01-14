@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # run this script from the project root dir
 
-printf "Number of loaded documents per ES index:\n"
+printf "Number of loaded documents per ES index:\n\n"
 wc -w index-state/o*.ids
 printf "\n"
 
