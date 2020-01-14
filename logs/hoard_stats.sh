@@ -9,7 +9,7 @@ printf "\n"
 LC_NUMERIC="en_US.UTF-8"
 for f in logs/o*-hoards-*.log
 do
-  SUM_CR=$(awk '{s += substr($3,2)} END {print s}' "$f")
+  SUM_CR=$(grep '^document' "$f" | awk '{s += substr($3,2)} END {print s}')
   SUM_UP=$(awk '{s += substr($4,2)} END {print s}' "$f")
   if [[ "$SUM_CR" -gt "0" ]]; then
     PERCENT_UPDATED=$(printf "%.2f\n" "$(bc -l <<< "$SUM_UP / ($SUM_UP + $SUM_CR) * 100")" )
@@ -23,7 +23,7 @@ do
 done
 
 # count total created and updated abbr definitions
-SUM_CR=$(awk '{s += substr($3,2)} END {print s}' logs/o*-hoards-*.log)
+SUM_CR=$(grep '^document' logs/o*-hoards-*.log | awk '{s += substr($3,2)} END {print s}')
 SUM_UP=$(awk '{s += substr($4,2)} END {print s}' logs/o*-hoards-*.log)
 PERCENT_UPDATED=$(printf "%.2f\n" "$(bc -l <<< "$SUM_UP / ($SUM_UP + $SUM_CR) * 100")" )
 printf "\nTOTAL\n"
