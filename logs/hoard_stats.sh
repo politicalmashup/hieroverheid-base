@@ -35,6 +35,6 @@ printf "\nNumber of validation errors per error log:\n\n"
 # col -b < logs/osi-load-20191217T2236.err.log | grep '400 ' | cut -d']' -f2 | less
 for f in logs/o*-load-*.err.log
 do
-  INVALIDS=$(col -b < "$f" | grep -c '400 ')
+  INVALIDS=$(col -b < "$f" | grep -c '400 ' | grep -v 'split into pages' )
   [[ "$INVALIDS" -gt "0" ]] && echo "$f: $INVALIDS clashing definitions"
 done
