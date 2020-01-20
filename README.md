@@ -5,11 +5,11 @@ Requires Python version >= 3.7.
 
 Clone this repository and install packages with `pip install -r requirements.txt`.
 
-Create an `oauth_credentials.py` file in the project root with the following structure:
+Create a `.env` file in the project root with the following structure:
 
-```python
-client_id       = "my_TAPI_client_id"
-client_secret   = "my_TAPI_client_secret"
+```shell script
+TAPI_CLIENT_ID="my_TAPI_client_id"
+TAPI_CLIENT_SECRET="my_TAPI_client_secret"
 ```
 
 ## Abbreviation Mining

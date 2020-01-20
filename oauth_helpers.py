@@ -4,8 +4,7 @@ from requests.adapters import HTTPAdapter
 from requests_oauthlib import OAuth2Session
 from urllib3 import Retry
 
-from constants import TAPI_ROOT_URL
-from oauth_credentials import client_id, client_secret
+from constants import TAPI_ROOT_URL, TAPI_CLIENT_ID, TAPI_CLIENT_SECRET
 
 
 def get_client(client_id, scope=None):
@@ -37,8 +36,8 @@ def get_client_with_token(client_id, client_secret, scope=None):
 
 
 oauth_client = get_client_with_token(
-    client_id=client_id,
-    client_secret=client_secret
+    client_id=TAPI_CLIENT_ID,
+    client_secret=TAPI_CLIENT_SECRET
 )
 
 

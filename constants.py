@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+TAPI_CLIENT_ID = os.getenv('TAPI_CLIENT_ID')
+TAPI_CLIENT_SECRET = os.getenv('TAPI_CLIENT_SECRET')
 TAPI_ROOT_URL = os.getenv('TAPI_ROOT_URL', "https://topics-dev.platform.co.nl/")
 if 'localhost' in TAPI_ROOT_URL:
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
